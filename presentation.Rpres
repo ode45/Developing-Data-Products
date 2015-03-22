@@ -1,0 +1,86 @@
+Predict the height of your child 
+========================================================
+author: Ode45
+date: March 22, 2014
+transition: rotate
+1: Predict the height of your child 
+========================================================
+
+![Kids](www/kids.jpg)
+
+This [Shiny application](http://ode45.shinyapps.io/height) will predict the height of your child, based on the height of both the mother and father and the gender of your child.
+
+2: Dataset
+========================================================
+
+
+```{r,echo=FALSE}
+library('scatterplot3d')
+library('UsingR')
+colorSet <- c('deeppink2','dodgerblue4')
+```
+
+The data comes from Galton's dataset, this data set lists the individual observations for 934 children.<small style="font-size:.8em">
+```{r}
+data(GaltonFamilies)
+str(GaltonFamilies)
+```
+</small>
+
+3: Linear model
+========================================================
+
+This application fits a linear model on the Galton's dataset. It predicts the child's height, based on the height of both the mother and father and the gender of the child:
+
+
+```{r}
+fit <- lm(formula = childHeight ~ mother + father + gender, data=GaltonFamilies)
+```
+<small style="font-size:.8em">
+```{r echo=FALSE}
+fit
+```
+</small>
+
+4: Predicting the height
+========================================================
+
+Let's say the father is 70 inches, the mother is 60 inches and you have a son. We use the fit to predict:
+
+```{r}
+fit <- lm(formula = childHeight ~ mother + father + gender, data=GaltonFamilies)
+
+newdata <- data.frame(father=70, mother=60, gender='male')
+childHeightHat <- predict(fit, newdata, interval='predict')
+```
+
+
+We predict that your child wil be `r round(childHeightHat[1],1)` inches.
+
+And the 95% prediction interval is between `r round(childHeightHat[2],1)` and `r round(childHeightHat[3],1)`                          inches.
+
+
+5: Plot with the prediction
+========================================================
+
+```{r, echo=FALSE, fig.height=6.5, fig.width=13}
+cmf=1;
+unit='inches'
+childg='son'
+s3d <- scatterplot3d(GaltonFamilies$father*cmf,GaltonFamilies$mother*cmf,GaltonFamilies$childHeight*cmf,
+                           angle=45,
+                           xlim=c(60, 75)*cmf,ylim=c(60,75)*cmf,zlim=c(60,75)*cmf,
+                           xlab = paste("Height father (",unit,")", sep=""),
+                           ylab = paste("Height mother (",unit,")", sep=""),
+                           zlab = paste("Height child (",unit,")", sep=""),
+                           main=paste("Your ", childg, "is predicted to be ", round(childHeightHat[1],1) ," ", unit, 
+                                      ".\nThe 95% prediction interval is between ", round(childHeightHat[2],1), " and ", round(childHeightHat[3],1) ," ", unit ,sep=""),                           
+                           color=colorSet[GaltonFamilies$gender])
+       s3d$plane3d(fit$coefficients[1:3]*c(cmf, 1, 1), col = "pink")
+       s3d$plane3d((fit$coefficients[1:3] + c(fit$coefficients["gendermale"], 0, 0))*c(cmf, 1, 1), col = "blue")
+                             
+       s3d$points3d(70,60,childHeightHat[1],col='red',pch=20,cex=3)
+```
+<small style="font-size:.8em">
+The datapoints in blue are from sons, the ones in pink are from daughters. The surface plot with the corresponding colors have been fitted with a linear model that predicts the height of the child. The point highligted in red indicates the prediction of your child.
+</small>
