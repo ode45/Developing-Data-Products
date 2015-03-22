@@ -82,5 +82,5 @@ s3d <- scatterplot3d(GaltonFamilies$father*cmf,GaltonFamilies$mother*cmf,GaltonF
        s3d$points3d(70,60,childHeightHat[1],col='red',pch=20,cex=3)
 ```
 <small style="font-size:.8em">
-The datapoints in blue are from sons, the ones in pink are from daughters. The surface plot with the corresponding colors have been fitted with a linear model that predicts the height of the child. The point highligted in red indicates the prediction of your child.
+The data points in blue are from sons, the ones in pink are from daughters. The surface plots with the corresponding colors have been fitted with a linear model that predicts the height of the child. The point highlighted in red indicates the prediction of your child.
 </small>

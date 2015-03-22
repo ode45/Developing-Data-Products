@@ -20,7 +20,7 @@ shinyUI(pageWithSidebar(
  
     plotOutput("heightplot",height=550),
     
-    h5('The data comes from', a('Galton\'s dataset', href='http://rgm3.lab.nig.ac.jp/RGM/R_rdfile?f=HistData/man/GaltonFamilies.Rd&d=R_CC'), 'this data set lists the individual observations for 934 children. The datapoints in blue are from sons, the ones in pink are from daughters. The surface plot with the corresponding colors have been fitted with a linear model that predicts the height of the child. The point highligted in red indicates the prediction of your child.')
+    h5('The data comes from', a('Galton\'s dataset', href='http://rgm3.lab.nig.ac.jp/RGM/R_rdfile?f=HistData/man/GaltonFamilies.Rd&d=R_CC'), 'this data set lists the individual observations for 934 children. The data points in blue are from sons, the ones in pink are from daughters. The surface plots with the corresponding colors have been fitted with a linear model that predicts the height of the child. The point highlighted in red indicates the prediction of your child.')
     
   )
 ))
